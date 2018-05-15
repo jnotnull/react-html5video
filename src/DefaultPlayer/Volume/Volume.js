@@ -22,13 +22,13 @@ export default ({ onChange, onClick, volume, muted, className, ariaLabelMute, ar
                 type="button">
                 { isSilent
                     ? <VolumeOff
-                        height={20}
-                        width={20}
+                        height={34}
+                        width={34}
                         className={styles.icon}
                         fill="#fff" />
                     : <VolumeUp
-                        height={20}
-                        width={20}
+                        height={34}
+                        width={34}
                         className={styles.icon}
                         fill="#fff"/> }
             </button>
