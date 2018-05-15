@@ -48,6 +48,7 @@ export const PROPERTIES = [
     'currentTime',
     'defaultMuted',
     'defaultPlaybackRate',
+    'playbackrates',
     'duration',
     'ended',
     'error',

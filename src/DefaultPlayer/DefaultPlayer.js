@@ -5,7 +5,9 @@ import copy from './copy';
 import {
     setVolume,
     showTrack,
+    showSpeed,
     toggleTracks,
+    toggleSpeeds,
     toggleMute,
     togglePause,
     setCurrentTime,
@@ -18,6 +20,7 @@ import Time from './Time/Time';
 import Seek from './Seek/Seek';
 import Volume from './Volume/Volume';
 import Captions from './Captions/Captions';
+import Speed from './Speed/Speed';
 import PlayPause from './PlayPause/PlayPause';
 import Fullscreen from './Fullscreen/Fullscreen';
 import Overlay from './Overlay/Overlay';
@@ -33,11 +36,17 @@ const DefaultPlayer = ({
     onVolumeChange,
     onVolumeClick,
     onCaptionsClick,
+    onSpeedClick,
     onPlayPauseClick,
     onFullscreenClick,
     onCaptionsItemClick,
+    onSpeedsItemClick,
     ...restProps
 }) => {
+    let playbackrates = restProps['data-playbackrates'];
+    if (playbackrates) {
+        playbackrates = JSON.parse(playbackrates);
+    }
     return (
         <div className={[
             styles.component,
@@ -98,6 +107,16 @@ const DefaultPlayer = ({
                                             onItemClick={onCaptionsItemClick}
                                             {...video}/>
                                         : null;
+                                case 'Speed':
+                                    return playbackrates && playbackrates.length > 0
+                                        ? <Speed
+                                            key={i}
+                                            onClick={onSpeedClick}
+                                            ariaLabel={copy.captions}
+                                            onItemClick={onSpeedsItemClick}
+                                            playbackrates={playbackrates}
+                                            {...video}/>
+                                        : null;
                                 default:
                                     return null;
                             }
@@ -108,7 +127,7 @@ const DefaultPlayer = ({
     );
 };
 
-const controls = ['PlayPause', 'Seek', 'Time', 'Volume', 'Fullscreen', 'Captions'];
+const controls = ['PlayPause', 'Seek', 'Time', 'Volume', 'Captions', 'Speed', 'Fullscreen'];
 
 DefaultPlayer.defaultProps = {
     copy,
@@ -142,8 +161,10 @@ const connectedPlayer = videoConnect(
         onFullscreenClick: () => toggleFullscreen(videoEl.parentElement),
         onVolumeClick: () => toggleMute(videoEl, state),
         onCaptionsClick: () => toggleTracks(state),
+        onSpeedClick: () => toggleSpeeds(videoEl, state),
         onPlayPauseClick: () => togglePause(videoEl, state),
         onCaptionsItemClick: (track) => showTrack(state, track),
+        onSpeedsItemClick: (speed) => showSpeed(videoEl, state, speed),
         onVolumeChange: (e) => setVolume(videoEl, state, e.target.value),
         onSeekChange: (e) => setCurrentTime(videoEl, state, e.target.value * state.duration / 100)
     })

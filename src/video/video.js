@@ -43,6 +43,9 @@ export default (
             this.setState(
                 PROPERTIES.reduce((p, c) => {
                     p[c] = this.videoEl && this.videoEl[c];
+                    if (c == 'playbackrates' && this.videoEl.dataset[c]) {
+                        p[c] = this.videoEl && JSON.parse(this.videoEl.dataset[c]);
+                    }
                     return p;
                 }, {})
             );

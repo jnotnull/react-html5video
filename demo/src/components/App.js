@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { DefaultPlayer as Video } from 'react-html5video';
+// import { DefaultPlayer as Video } from 'react-html5video';
+import { DefaultPlayer as Video } from '../../../dist/index.js';
 import 'react-html5video/dist/styles.css';
 import styles from './App.css';
 import 'reset-css/reset.css';
@@ -30,6 +31,19 @@ class App extends Component {
                             onPlay={() => {
                                 this.refs.video2.videoEl.pause();
                             }}
+                            data-playbackrates={JSON.stringify([{
+                                id: 0.5, name: '0.5x', mode: 'disabled'
+                            },{
+                                id: 0.75, name: '0.75x', mode: 'disabled'
+                            },{
+                                id: 1, name: 'Normal', mode: 'showing'
+                            },{
+                                id: 1.25, name: '1.25x', mode: 'disabled'
+                            },{
+                                id: 1.5, name: '1.5x', mode: 'disabled'
+                            },{
+                                id: 2, name: '2x', mode: 'disabled'
+                            }])}
                             poster={sintelTrailerPoster}>
                             <source src={sintelTrailer} type="video/mp4" />
                             <track

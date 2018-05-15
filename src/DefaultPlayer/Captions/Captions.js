@@ -1,8 +1,9 @@
 import React from 'react';
 import styles from './Captions.css';
-import ClosedCaptionIcon from './../Icon/closed_caption.svg';
+import ClosedCaptionIcon from './../Icon/caption_new.svg';
 
 export default ({ textTracks, onClick, onItemClick, className, ariaLabel }) => {
+    console.log('caption')
     return (
         <div className={[
             styles.component,

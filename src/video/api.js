@@ -87,6 +87,38 @@ export const toggleTracks = (() => {
         }
 }})();
 
+export const showSpeed = (videoEl, state, speed) => {
+    let playbackrates = state.playbackrates;
+    hideSpeeds(videoEl, {playbackrates});
+    speed.mode = speed.SHOWING || 'showing';
+
+    videoEl.dataset['playbackrates'] = JSON.stringify(playbackrates);
+    videoEl.playbackRate = speed.id;
+};
+
+export const hideSpeeds = (videoEl, state) => {
+    let playbackrates = state.playbackrates;
+    for (var i = 0; i < playbackrates.length; i++) {
+        playbackrates[i].mode = playbackrates[i].DISABLED || 'disabled';
+    }
+};
+
+export const toggleSpeeds = (() => {
+    let previousSpeed;
+    return (videoEl, state) => {
+        let playbackrates = state.playbackrates;
+
+        let currentSpeed = playbackrates
+            .filter((item) => item.mode === 'showing')[0];
+
+        if (currentSpeed) {
+            hideSpeeds(videoEl, {playbackrates});
+            previousSpeed = currentSpeed;
+        } else {
+            showSpeed(videoEl, {playbackrates}, previousSpeed || playbackrates[0]);
+        }
+}})();
+
 /**
  * Custom getter methods that are commonly used
  * across video layouts. To be primarily used in
